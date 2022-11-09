@@ -126,10 +126,8 @@ fs.readdir(
         files.forEach((item) => {
                 fs.readFile(
                     path.join(`${__dirname}/assets/fonts`, item.name),
-                    'utf-8',
                     (err, data) => {
                         if(err) throw err;
-                        data = data.toString();
 
                         fs.writeFile(
                             path.join(`${__dirname}/project-dist/assets/fonts`, item.name),
@@ -150,10 +148,8 @@ fs.readdir(
         files.forEach((item) => {
                 fs.readFile(
                     path.join(`${__dirname}/assets/img`, item.name),
-                    'utf-8',
                     (err, data) => {
                         if(err) throw err;
-                        data = data.toString();
 
                         fs.writeFile(
                             path.join(`${__dirname}/project-dist/assets/img`, item.name),
