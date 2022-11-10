@@ -3,6 +3,8 @@ const path = require('path');
 
 // Create folder
 
+fs.rm(path.resolve(__dirname, 'project-dist'), { recursive: true, force: true }, () => {
+
 fs.mkdir(
     path.join(__dirname, 'project-dist'), { recursive: true }, () => {
         (err) => {
@@ -25,7 +27,8 @@ fs.readFile(
         template = data.toString();
     }
 )
-
+fs.stat(path.join(__dirname, 'components'), (err) => {
+    if (!err) {
 fs.readdir(
     path.join(__dirname, 'components'), { withFileTypes: true }, (err, files) => {
         files.forEach((item) => {
@@ -51,7 +54,7 @@ fs.readdir(
         })
     }
 )
-
+}});
 
 // styles
 
@@ -86,6 +89,9 @@ fs.readdir(
 // assets
 
 // Create folders
+
+fs.stat(path.join(__dirname, 'assets/fonts'), (err) => {
+    if (!err) {
 fs.mkdir(
     path.join(`${__dirname}/project-dist`, 'assets'),{ recursive: true }, () => {
         (err) => {
@@ -93,30 +99,22 @@ fs.mkdir(
         }
     }
 )
-fs.mkdir(
-    path.join(`${__dirname}/project-dist/assets`, 'fonts'),{ recursive: true }, () => {
-        (err) => {
-            if(err) throw err;
-        }
-    }
-)
-fs.mkdir(
-    path.join(`${__dirname}/project-dist/assets`, 'img'),{ recursive: true }, () => {
-        (err) => {
-            if(err) throw err;
-        }
-    }
-)
-fs.mkdir(
-    path.join(`${__dirname}/project-dist/assets`, 'svg'),{ recursive: true }, () => {
-        (err) => {
-            if(err) throw err;
-        }
-    }
-)
+}});
+
+
 
 
 // copy assets/fonts
+fs.stat(path.join(__dirname, 'assets/fonts'), (err) => {
+    if (!err) {
+
+    fs.mkdir(
+        path.join(`${__dirname}/project-dist/assets`, 'fonts'),{ recursive: true }, () => {
+            (err) => {
+                if(err) throw err;
+            }
+        }
+    )
 
 fs.readdir(
     path.join(`${__dirname}/assets`, 'fonts'), { withFileTypes: true }, (err, files) => {
@@ -137,8 +135,18 @@ fs.readdir(
         })
     }
 )
-
+}});
 // copy assets/img
+fs.stat(path.join(__dirname, 'assets/img'), (err) => {
+    if (!err) {
+
+        fs.mkdir(
+            path.join(`${__dirname}/project-dist/assets`, 'img'),{ recursive: true }, () => {
+                (err) => {
+                    if(err) throw err;
+                }
+            }
+        )
 
 fs.readdir(
     path.join(`${__dirname}/assets`, 'img'), { withFileTypes: true }, (err, files) => {
@@ -159,8 +167,20 @@ fs.readdir(
         })
     }
 )
+}});
 
 // copy assets/svg
+
+fs.stat(path.join(__dirname, 'assets/svg'), (err) => {
+    if (!err) {
+
+        fs.mkdir(
+            path.join(`${__dirname}/project-dist/assets`, 'svg'),{ recursive: true }, () => {
+                (err) => {
+                    if(err) throw err;
+                }
+            }
+        )
 
 fs.readdir(
     path.join(`${__dirname}/assets`, 'svg'), { withFileTypes: true }, (err, files) => {
@@ -183,5 +203,8 @@ fs.readdir(
         })
     }
 )
+}});
 
-console.log('project-dist created');
+});
+
+console.log('project-dist created')
