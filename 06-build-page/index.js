@@ -14,47 +14,44 @@ fs.mkdir(
 
 // index.html concatenate
 
-let articles;
-let footer;
-let header;
+let componentStorage = new Object;
 
-fs.readFile(
-    path.join(`${__dirname}/components`, 'articles.html'),
-    (err, data) => {
-        if(err) throw err;
-        articles = data.toString();
-    }
-)
-fs.readFile(
-    path.join(`${__dirname}/components`, 'footer.html'),
-    (err, data) => {
-        if(err) throw err;
-        footer = data.toString();
-    }
-)
-fs.readFile(
-    path.join(`${__dirname}/components`, 'header.html'),
-    (err, data) => {
-        if(err) throw err;
-        header = data.toString();
-    }
-)
+let template;
+
 fs.readFile(
     path.join(__dirname, 'template.html'),
     (err, data) => {
         if(err) throw err;
-        let template = data.toString()
-        template = template.replace('{{articles}}', articles).replace('{{header}}', header).replace('{{footer}}', footer)
-        
-        fs.writeFile(
-            path.join(`${__dirname}/project-dist`, 'index.html'),
-            template,
-            (err) => {
-                if(err) throw err;
-            }
-        )
+        template = data.toString();
     }
 )
+
+fs.readdir(
+    path.join(__dirname, 'components'), { withFileTypes: true }, (err, files) => {
+        files.forEach((item) => {
+            let componentName = item.name.toString().replace(/\.[^.]+$/, "");
+            fs.readFile(
+                path.join(`${__dirname}/components`, `${item.name.toString()}`),
+                (err, data) => {
+                    if(err) throw err;
+
+                    componentStorage[componentName] = data.toString();
+
+                    template = template.replace(`{{${componentName}}}`, componentStorage[componentName]);
+
+                    fs.writeFile(
+                        path.join(`${__dirname}/project-dist`, 'index.html'),
+                        template,
+                        (err) => {
+                        if(err) throw err;
+                        }
+                )
+                }
+            )
+        })
+    }
+)
+
 
 // styles
 
@@ -187,4 +184,4 @@ fs.readdir(
     }
 )
 
-console.log('project-dist created')
+console.log('project-dist created');
